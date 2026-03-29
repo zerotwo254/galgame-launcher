@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --accent-r: 230;
+  --accent-g: 25;
+  --accent-b: 77;
+  --accent: rgb(var(--accent-r), var(--accent-g), var(--accent-b));
+  --accent-light: rgb(
+    calc(var(--accent-r) + (255 - var(--accent-r)) * 0.35),
+    calc(var(--accent-g) + (255 - var(--accent-g)) * 0.35),
+    calc(var(--accent-b) + (255 - var(--accent-b)) * 0.35)
+  );
+}
+
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #171717;
+  font-family: 'Noto Sans SC', 'Microsoft YaHei UI', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+  user-select: none;
+}
+
+/* Draggable region for frameless window */
+.drag-region {
+  -webkit-app-region: drag;
+}
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+/* Ubiquity-style animated gradient border */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotateBorder {
+  to { --border-angle: 360deg; }
+}
+
+.ubiquity-border {
+  --border-angle: 0deg;
+  border: 2px solid transparent;
+  background: conic-gradient(from var(--border-angle), var(--accent), var(--accent-light), #7e80fe, var(--accent)) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: rotateBorder 4s linear infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.ubiquity-glow {
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+/* Light sweep effect */
+@keyframes lightSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.light-sweep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.08) 40%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.08) 60%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.group:hover .light-sweep::after {
+  animation: lightSweep 0.6s ease-out;
+}
+
+/* Fade masks */
+.fade-left {
+  mask-image: linear-gradient(to right, transparent 0%, black 15%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%);
+}
+
+.fade-right {
+  mask-image: linear-gradient(to left, transparent 0%, black 8%);
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, black 8%);
+}
+
+.fade-bottom-strip {
+  mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+}
+
+/* Launch button ripple */
+@keyframes rippleExpand {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+}
+.ripple-effect {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  animation: rippleExpand 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Animated gradient background for no-media state */
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-bg-gradient {
+  background: linear-gradient(
+    -45deg,
+    #0f0f1a, #1a1a2e, #16213e, #0f0f1a, #1a0a1a, #1e0a2e, #0f0f1a
+  );
+  background-size: 400% 400%;
+  animation: gradientFlow 20s ease infinite;
+}

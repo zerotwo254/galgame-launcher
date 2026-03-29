@@ -1,0 +1,55 @@
+{
+  "name": "galgame-launcher",
+  "version": "1.0.0",
+  "description": "Galgame Launcher",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"sleep 4 && npx electron .\"",
+    "build": "vite build && electron-builder",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "framer-motion": "^11.0.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^9.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^33.4.11",
+    "electron-builder": "^25.0.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "vite": "^6.0.0",
+    "wait-on": "^8.0.0"
+  },
+  "build": {
+    "appId": "com.galgame.launcher",
+    "productName": "Galgame Launcher",
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "tools",
+        "to": "tools"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false,
+      "sign": null
+    }
+  }
+}
